@@ -124,13 +124,17 @@ randomButton.addEventListener("click", () => {
     );
   }
 
-  const randomIndex = Math.floor(
-    Math.random() * availableCards.length
-  );
+  if (availableCards.length === 0) {
+  return;
+}
 
-  const randomCard = availableCards[randomIndex];
+const randomIndex = Math.floor(
+  Math.random() * availableCards.length
+);
 
-  selectCard(randomCard);
+const randomCard = availableCards[randomIndex];
+
+selectCard(randomCard);
 });
 
 function resetInterface() {
@@ -240,3 +244,6 @@ function renderHistory() {
     historyList.append(historyItem);
   });
 }
+
+filterCards("all");
+renderHistory();
