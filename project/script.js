@@ -17,3 +17,34 @@
 
 // Этап 6. Запускайте подготовленную CSS-анимацию через класс.
 // Не дублируйте оформление в script.js.
+
+const cards = document.querySelectorAll(".collection-card");
+
+const detailsTitle = document.querySelector("#details-title");
+const detailsDescription = document.querySelector("#details-description");
+const detailsPanel = document.querySelector("#details-panel");
+
+function selectCard(card) {
+  cards.forEach((item) => {
+    item.classList.remove("collection-card--selected");
+    item.setAttribute("aria-pressed", "false");
+  });
+
+  card.classList.add("collection-card--selected");
+  card.setAttribute("aria-pressed", "true");
+
+  detailsTitle.textContent = card.dataset.title;
+  detailsDescription.textContent = card.dataset.description;
+
+  detailsPanel.classList.remove("details-panel--pulse");
+
+  requestAnimationFrame(() => {
+    detailsPanel.classList.add("details-panel--pulse");
+  });
+}
+
+cards.forEach((card) => {
+  card.addEventListener("click", () => {
+    selectCard(card);
+  });
+});
