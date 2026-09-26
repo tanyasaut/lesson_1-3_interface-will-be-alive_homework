@@ -30,6 +30,8 @@ const visibleCount = document.querySelector("#visible-count");
 const randomButton = document.querySelector("#random-button");
 const resetButton = document.querySelector("#reset-button");
 
+const selectionHistory = [];
+
 function selectCard(card) {
   cards.forEach((item) => {
     item.classList.remove("collection-card--selected");
@@ -47,6 +49,8 @@ function selectCard(card) {
   requestAnimationFrame(() => {
     detailsPanel.classList.add("details-panel--pulse");
   });
+
+  updateHistory(card);
 }
 
 cards.forEach((card) => {
@@ -150,6 +154,9 @@ function resetInterface() {
     "Здесь появится описание выбранного города. Выберите карточку, чтобы узнать о нём подробнее.";
 
   detailsPanel.classList.remove("details-panel--pulse");
+
+  selectionHistory.length = 0;
+  renderHistory();
 }
 
 resetButton.addEventListener("click", resetInterface);
@@ -200,3 +207,36 @@ document.addEventListener("keydown", (event) => {
   selectCard(nextCard);
   nextCard.focus();
 });
+
+function updateHistory(card) {
+  const title = card.dataset.title;
+
+  const existingIndex = selectionHistory.indexOf(title);
+
+  if (existingIndex !== -1) {
+    selectionHistory.splice(existingIndex, 1);
+  }
+
+  selectionHistory.unshift(title);
+
+  if (selectionHistory.length > 3) {
+    selectionHistory.pop();
+  }
+
+  renderHistory();
+}
+
+function renderHistory() {
+  const historyList = document.querySelector("#history-list");
+
+  historyList.innerHTML = "";
+
+  selectionHistory.forEach((title) => {
+    const historyItem = document.createElement("div");
+
+    historyItem.className = "history-item";
+    historyItem.textContent = title;
+
+    historyList.append(historyItem);
+  });
+}

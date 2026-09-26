@@ -559,6 +559,45 @@ a:focus-visible {
     padding: 1.5rem;
   }
 }
+.history-panel {
+  position: relative;
+  z-index: 1;
+  margin-top: 1.4rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgb(255 255 255 / 18%);
+}
+
+.history-panel__title {
+  margin: 0 0 0.65rem;
+  color: rgb(255 255 255 / 55%);
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.history-item {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  width: 100%;
+  margin: 0;
+  padding: 0.38rem 0;
+  color: rgb(255 255 255 / 82%);
+  font-size: 0.85rem;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.history-item::before {
+  width: 0.35rem;
+  height: 0.35rem;
+  flex: 0 0 0.35rem;
+  border-radius: 50%;
+  background: var(--signal);
+  content: "";
+}
+
 
 @media (prefers-reduced-motion: reduce) {
   html {
