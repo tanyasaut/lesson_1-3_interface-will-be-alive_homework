@@ -28,6 +28,7 @@ const filterButtons = document.querySelectorAll(".filter-button");
 const visibleCount = document.querySelector("#visible-count");
 
 const randomButton = document.querySelector("#random-button");
+const resetButton = document.querySelector("#reset-button");
 
 function selectCard(card) {
   cards.forEach((item) => {
@@ -127,3 +128,28 @@ randomButton.addEventListener("click", () => {
 
   selectCard(randomCard);
 });
+
+function resetInterface() {
+  cards.forEach((card) => {
+    card.classList.remove("collection-card--hidden");
+    card.classList.remove("collection-card--selected");
+    card.setAttribute("aria-pressed", "false");
+  });
+
+  filterButtons.forEach((button) => {
+    const isAll = button.dataset.filter === "all";
+
+    button.classList.toggle("filter-button--active", isAll);
+    button.setAttribute("aria-pressed", String(isAll));
+  });
+
+  visibleCount.textContent = cards.length;
+
+  detailsTitle.textContent = "Выберите город";
+  detailsDescription.textContent =
+    "Здесь появится описание выбранного города. Выберите карточку, чтобы узнать о нём подробнее.";
+
+  detailsPanel.classList.remove("details-panel--pulse");
+}
+
+resetButton.addEventListener("click", resetInterface);
