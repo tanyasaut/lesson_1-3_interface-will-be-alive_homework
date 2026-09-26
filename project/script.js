@@ -24,6 +24,9 @@ const detailsTitle = document.querySelector("#details-title");
 const detailsDescription = document.querySelector("#details-description");
 const detailsPanel = document.querySelector("#details-panel");
 
+const filterButtons = document.querySelectorAll(".filter-button");
+const visibleCount = document.querySelector("#visible-count");
+
 function selectCard(card) {
   cards.forEach((item) => {
     item.classList.remove("collection-card--selected");
@@ -46,5 +49,53 @@ function selectCard(card) {
 cards.forEach((card) => {
   card.addEventListener("click", () => {
     selectCard(card);
+  });
+});
+
+
+function filterCards(category) {
+  let count = 0;
+
+  cards.forEach((card) => {
+    const isVisible =
+      category === "all" || card.dataset.category === category;
+
+    if (isVisible) {
+      card.classList.remove("collection-card--hidden");
+      count++;
+    } else {
+      card.classList.add("collection-card--hidden");
+    }
+  });
+
+  visibleCount.textContent = count;
+
+  filterButtons.forEach((button) => {
+    const isActive = button.dataset.filter === category;
+
+    button.classList.toggle("filter-button--active", isActive);
+    button.setAttribute("aria-pressed", String(isActive));
+  });
+
+   const selectedCard = document.querySelector(
+    ".collection-card--selected"
+  );
+
+  if (
+    selectedCard &&
+    selectedCard.classList.contains("collection-card--hidden")
+  ) {
+    selectedCard.classList.remove("collection-card--selected");
+    selectedCard.setAttribute("aria-pressed", "false");
+
+    detailsTitle.textContent = "Выберите город";
+    detailsDescription.textContent =
+      "Здесь появится описание выбранного города. Выберите карточку, чтобы узнать о нём подробнее.";
+  }
+}
+
+filterButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    filterCards(button.dataset.filter);
   });
 });
