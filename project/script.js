@@ -153,3 +153,50 @@ function resetInterface() {
 }
 
 resetButton.addEventListener("click", resetInterface);
+
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape") {
+    resetInterface();
+    return;
+  }
+
+  if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") {
+    return;
+  }
+
+  const visibleCards = Array.from(cards).filter(
+    (card) => !card.classList.contains("collection-card--hidden")
+  );
+
+  if (visibleCards.length === 0) {
+    return;
+  }
+
+  const selectedCard = visibleCards.find(
+    (card) => card.classList.contains("collection-card--selected")
+  );
+
+  let nextIndex;
+
+  if (!selectedCard) {
+    nextIndex = event.key === "ArrowRight"
+      ? 0
+      : visibleCards.length - 1;
+  } else {
+    const currentIndex = visibleCards.indexOf(selectedCard);
+
+    if (event.key === "ArrowRight") {
+      nextIndex = (currentIndex + 1) % visibleCards.length;
+    } else {
+      nextIndex =
+        (currentIndex - 1 + visibleCards.length) % visibleCards.length;
+    }
+  }
+
+  event.preventDefault();
+
+  const nextCard = visibleCards[nextIndex];
+
+  selectCard(nextCard);
+  nextCard.focus();
+});

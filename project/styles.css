@@ -535,6 +535,12 @@ a:focus-visible {
     flex-direction: column;
   }
 
+  .keyboard-hint {
+  margin: 0 0 1rem;
+  color: var(--muted);
+  font-size: 0.78rem;
+}
+
   .collection-grid {
     grid-template-columns: 1fr;
   }
